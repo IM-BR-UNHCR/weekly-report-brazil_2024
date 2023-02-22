@@ -3,9 +3,9 @@ title: Weekly Reporting Highlights - Brazil
 subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())-1 }  `/`r lubridate::year(lubridate::today())`
 date: Brasilia Office, Brazil
 author:
-  - name: Vivianne Barbosa Soares
-    affiliation: Senior Reporting Assistant
-    email: barbosas@unhcr.org
+  - name: Chiara Orsini, Vivianne Barbosa Soares
+    affiliation: Associate Reporting Officer, Senior Reporting Assistant
+    email: orsini@unhcr.org, barbosas@unhcr.org
 output:
   pagedown::html_paged:
     # put the path to your cover image
