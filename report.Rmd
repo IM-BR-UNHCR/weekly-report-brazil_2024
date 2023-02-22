@@ -1,5 +1,5 @@
 ---
-title: Brazil Weekly Highlights Report
+title: Weekly Inputs - Reporting Brazil
 subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())-1 }  `/`r lubridate::year(lubridate::today())`
 date: Brasilia Office, Brazil
 author:
