@@ -2,7 +2,7 @@
 # Weekly Report Automation
 
 
-This repository includes material to automate weekly reporting from Brazil. It compiles information from all offices in Brazil based on predefined structure.
+This repository includes material to automate weekly highlights reporting from Brazil. It compiles information from all offices in Brazil based on predefined structure.
 
 
 ## Form
@@ -143,14 +143,14 @@ outlb <- get_business_outlook()
 # compose an email with blastula
 library(blastula)
 bl_body <- "## Hello!
-Please find attached the weekly report for Brazil."
+Please find attached the Brazil Weekly Highlights Report."
 
 bl_em <- compose_email(
     body=md(bl_body),
     footer=md("UNHCR Reporting Unit")
 )
 em <- outl$create_email(bl_em, 
-                        subject="Weekly Report Brazil",
+                        subject="Brazil Weekly Highlights Report",
                         to="orsini@unhcr.org","barbosas@unhcr.org")
 
 # add an attachment and send it
