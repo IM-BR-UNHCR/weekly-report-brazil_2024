@@ -38,14 +38,23 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
                       fig.showtext = TRUE,
                       dev = "ragg_png",
                       dpi = 300)
-
+  
+## Basic todyverse packages
 library(tidyverse)
 library(lubridate)
 library(httr)
+
+## Package for UNHCR report template
+# install.packages("devtools")
+devtools::install_github("vidonne/unhcrdown")
+  
 library(ragg)
 library(showtext)
 library(unhcrdesign)
 #knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+  
+## Package to create automatation with http://rstudio.unhcr.org
+devtools::install_github("rstudio/rsconnect")
 
 ```
 
