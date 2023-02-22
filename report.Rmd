@@ -55,6 +55,8 @@ library(unhcrdesign)
   
 ## Package to create automatation with http://rstudio.unhcr.org
 devtools::install_github("rstudio/rsconnect")
+  
+usethis::edit_r_environ()
 
 ```
 
