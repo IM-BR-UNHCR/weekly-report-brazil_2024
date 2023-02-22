@@ -1,11 +1,11 @@
 ---
-title: Americas Weekly Highlights
+title: Weekly Reporting Highlights - Brazil
 subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())-1 }  `/`r lubridate::year(lubridate::today())`
-date: Regional Bureau for the Americas
+date: Brasilia Office, Brazil
 author:
-  - name: Carla Calvo Manosa
-    affiliation: Reporting Officer
-    email: alvoc@unhcr.org
+  - name: Vivianne Barbosa Soares
+    affiliation: Senior Reporting Assistant
+    email: barbosas@unhcr.org
 output:
   pagedown::html_paged:
     # put the path to your cover image
@@ -50,12 +50,9 @@ library(unhcrdesign)
 ```
 
 
-
-
-
 ```{r data}
 data <-
-  GET("https://kobo.unhcr.org/api/v2/assets/aLWoR3ZMFogWzChxaX28cP/data.json",
+  GET("https://kobo.unhcr.org/api/v2/assets/a5BzV4z9cA3kx8y9hFEUG7/data.json",
       add_headers(Authorization = glue::glue("Token {Sys.getenv('KOBO_API_KEY')}"))) %>% 
   content(as = "text") %>% 
   jsonlite::fromJSON() %>% 
