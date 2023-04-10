@@ -1,11 +1,11 @@
 ---
-title: Weekly Inputs - Reporting Brazil
+title: Weekly Highlights - Brazil
 subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())-1 }  `/`r lubridate::year(lubridate::today())`
-date: Brasilia Office, Brazil
+date: Weekly Highlights - Brazil
 author:
-  - name: Chiara Orsini, Vivianne Barbosa Soares
-    affiliation: Associate Reporting Officer, Senior Reporting Assistant
-    email: orsini@unhcr.org, barbosas@unhcr.org
+  - name: Chiara Orsini and Vivianne Barbosa Soares
+    affiliation: Associate Donor Relations Officer and Senior Reporting Assistant
+    email: orsini@unhcr.org & barbosas@unhcr.org
 output:
   pagedown::html_paged:
     # put the path to your cover image
@@ -38,25 +38,16 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
                       fig.showtext = TRUE,
                       dev = "ragg_png",
                       dpi = 300)
-  
-## Basic todyverse packages
+
 library(tidyverse)
 library(lubridate)
 library(httr)
-
-## Package for UNHCR report template
-# install.packages("devtools")
-devtools::install_github("vidonne/unhcrdown")
-  
 library(ragg)
 library(showtext)
 library(unhcrdesign)
+library(tidyr)
+library(dplyr)
 #knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
-  
-## Package to create automatation with http://rstudio.unhcr.org
-devtools::install_github("rstudio/rsconnect")
-  
-usethis::edit_r_environ()
 
 ```
 
@@ -72,64 +63,78 @@ data <-
 
 data <- 
   data %>% 
-  filter(is.na(`grRepOp/exReport`) | `grRepOp/exReport`=="" | `grRepOp/exReport`=="no") %>% # remove extraordinary reports from the dataset
   select(id = `_id`,
          year = `_submission_time`,
-         week = `grRepOp/week`,
-         country = `grRepOp/country`,
-         context.narrative = `grContext/conDesGr/context`,
-         context.confidential = `grContext/conDesGr/confContext`,
-         poptrends.narrative = `grPopulationTrends/popDesGr/popTrends`,
-         poptrends.confidential = `grPopulationTrends/popDesGr/confPop`,
-         protection.narrative = `grProtectionConcerns/protecDesGr/protCon`,
-         protection.confidential = `grProtectionConcerns/protecDesGr/confProt`,
-         operations.narrative = `grOperation/opeDesGr/operInfo`,
-         operations.confidential = `grOperation/opeDesGr/confOperation`,
-         interagency.narrative = `grInteragencial/interDesGr/InteragencyInfo`,
-         interagency.confidential = `grInteragencial/interDesGr/confInter`,
-         aob.narrative = `grAoB/aobDesGr/AoBInfo`,
-         aob.confidential = `grAoB/aobDesGr/confAoB`)
+         week = `group_dv7hn13/Week_of_Reporting`,
+         office.unit = `group_dv7hn13/Office_Unit`,
+         reporting_unit = `In_which_Unit_do_you_have_some`,
+         
+         work_operation.narrative = `group_hx2aq27/NON_CONFIDENTIAL_PR_UNHCR_WORK_OPERATION`,
+         work_operation.confidential = `group_hx2aq27/CONFIDENTIAL_PROVID_UNHCR_WORK_OPERATION`,
+         
+         new_trends.narrative = `group_gt36y03/NON_CONFIDENTIAL_PR_FOCUS_ON_NEW_TRENDS`,
+         
+         protection.narrative = `group_xi4iq21/NON_CONFIDENTIAL_Pl_rotection_activities`,
+         protection.confidential = `group_xi4iq21/CONFIDENTIAL_Please_rotection_activities`,
+         
+         indigenous.narrative = `group_yz3lf65/NON_CONFIDENTIAL_Pl_n_indigenous_peoples`,
+         indigenous.confidential = `group_yz3lf65/CONFIDENTIAL_Please_n_indigenous_peoples`,
+         
+         pathways.narrative = `group_lo0ux27/NON_CONFIDENTIAL_Pl_omplemetary_pathways`,
+         pathways.confidential = `group_lo0ux27/CONFIDENTIAL_Please_omplemetary_pathways`,
+         
+         shelter.narrative = `group_so4kv20/NON_CONFIDENTIAL_Pl_o_emergency_shelters`,
+         shelter.confidential = `group_so4kv20/CONFIDENTIAL_Please_o_emergency_shelters`,
+         
+         relocation.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
+         livelihoods.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_velihoods_activities`,
+         livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
+         
+         cbi.narrative = `group_wp7sb17/NON_CONFIDENTIAL_Pl_rt_on_CBI_activities`)
 
 data <- 
   data %>% 
   mutate(year = year(year),
          week = parse_number(week)) %>%
-  pivot_longer(-c(id, year, week, country), names_pattern = "(.+)\\.(.+)", names_to = c("section", "dimension")) %>% 
+  pivot_longer(-c(id, year, week, office.unit), names_pattern = "(.+)\\.(.+)", names_to = c("section", "dimension")) %>% 
   pivot_wider(names_from = "dimension", values_from = "value")
+
 
 data <- 
   data %>% 
-  mutate(country = case_when(country == "CostaRica" ~ "Costa Rica",
-                             country == "DominicanRepublic" ~ "Dominican Rep.",
-                             country == "NorthernCaribbean" ~ "Northern Caribbean",
-                             country == "TrinidadTobago" ~ "Trinidad and Tobago",
-                             country == "UnitedStates" ~ "United States of America",
-                             country == "Bolivia" ~ "Bolivia (Plurinational State of)",
-                             country == "Curaçao" ~ "Curacao ",
-                             country == "Venezuela" ~ "Venezuela (Bolivarian Republic of)",
-                             is.na(country) ~ "The Americas",
-                             TRUE ~ country),
-         section = c(aob = "A.O.B", 
-                      context = "Context", 
-                      interagency = "Inter-Agency",
-                      operations = "Operations", 
-                      poptrends = "Population Trends", 
-                      protection = "Protection Concerns")[section],
+  mutate(office.unit = case_when(office.unit == "so_boa_vista" ~ "SO Boa Vista",
+                             office.unit == "livelihoods___bras_lia" ~ "Livelihoods - Brasília",
+                             office.unit == "protection___bras_lia" ~ "Protection - Brasília",
+                             office.unit == "resettlement_and_complementary_paths___b" ~ "Resettlement and Complementary Pathways",
+                             office.unit == "indigenous___bras_lia" ~ "Indigenous – Brasília",
+                             office.unit == "cbi___bras_lia" ~ "CBI – Brasília ",
+                             office.unit == "psp___s_o_paulo" ~ "PSP – São Paulo",
+                             office.unit == "fo_s_o_paulo" ~ "FO São Paulo",
+                             office.unit == "fp_bel_m" ~ "FU Belém",
+                             office.unit == "fo_manaus" ~ "FO Manaus",
+                             office.unit == "fu_pacaraima" ~ "FU Pacaraima"),
+         section = c(work_operation = "Context + Situation", 
+                      new_trends = "Population Trends", 
+                      protection = "Protection",
+                      indigenous = "Indigenous Peoples", 
+                      pathways = "Resettlement and Complementary Pathways", 
+                      shelter = "Shelter",
+                      relocation = "Internal Relocation",
+                      livelihoods = "Livelihoods",
+                      cbi = "CBI")[section],
          narrative = replace_na(narrative, "Nothing to report."))
 
 data <- 
   data %>% 
-  left_join(popdata::pd_countries %>% select(country = name, region)) %>% 
-  mutate(region = case_when(country == "Northern Caribbean" ~ "Caribbean",
-                            country == "The Americas" ~ "Regional Overview",
-                            TRUE ~ region))
+  mutate(office.unit = factor(office.unit),
+         section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection",
+                                              "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Internal Relocation", "Livelihoods", "CBI")))
+
 
 data <- 
   data %>% 
-  mutate(region = region %>% factor() %>% fct_relevel("Regional Overview", after = 0),
-         country = factor(country),
-         section = factor(section, levels = c("Context", "Population Trends", "Protection Concerns",
-                                              "Operations", "Inter-Agency", "A.O.B")))
+  select(id, year, week, office.unit, section, narrative, confidential) %>%
+  filter(!is.na(section))
 ```
 
 ```{r renderers}
@@ -143,17 +148,13 @@ render_section <- function(data, .section) {
   cat("\n")
 }
 
-render_country <- function(data, .country) {
-  cat(glue::glue("## {.country}"), sep = "\n")
-  data <- data %>% filter(country == .country)
+render_office.unit <- function(data, .office.unit) {
+  cat(glue::glue("## {.office.unit}"), sep = "\n")
+  data <- data %>% filter(office.unit == .office.unit)
   walk(levels(fct_drop(data$section)), ~render_section(data, .))
 }
 
-render_region <- function(data, .region) {
-  cat(glue::glue("# {.region}"), sep = "\n")
-  data <- data %>% filter(region == .region)
-  walk(levels(fct_drop(data$country)), ~render_country(data, .))
-}
+
 ```
 
 ```{r datafilter}
@@ -176,11 +177,6 @@ if(isoweek(today()) == 1 ) {
 
 datanow2 <- datanow [!duplicated(datanow[c(4,5)]),]
 
-```
-
-
-```{r pipeline, results='asis'}
-purrr::walk(levels(fct_drop(datanow2$region)), ~render_region(datanow2, .))
 ```
 
 
