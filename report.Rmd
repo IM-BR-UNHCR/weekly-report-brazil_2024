@@ -1,11 +1,12 @@
 ---
 title: Weekly Highlights - Brazil
-subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())-1 }  `/`r lubridate::year(lubridate::today())`
+subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())}  `/`r lubridate::year(lubridate::today())`
 date: Weekly Highlights - Brazil
 author:
   - name: Chiara Orsini and Vivianne Barbosa Soares
     affiliation: Associate Donor Relations Officer and Senior Reporting Assistant
-    email: orsini@unhcr.org & barbosas@unhcr.org
+    email: barbosas@unhcr.org
+
 output:
   pagedown::html_paged:
     # put the path to your cover image
@@ -30,14 +31,17 @@ paged-footnotes: true
 links-to-footnotes: true
 # uncomment this line to produce HTML and PDF in RStudio:
 # knit: pagedown::chrome_print
+
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
                       fig.retina = 2,
                       fig.showtext = TRUE,
                       dev = "ragg_png",
                       dpi = 300)
+
 
 library(tidyverse)
 library(lubridate)
@@ -45,8 +49,6 @@ library(httr)
 library(ragg)
 library(showtext)
 library(unhcrdesign)
-library(tidyr)
-library(dplyr)
 #knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 ```
@@ -60,7 +62,6 @@ data <-
   jsonlite::fromJSON() %>% 
   pluck("results") %>% 
   as_tibble()
-
 data <- 
   data %>% 
   select(id = `_id`,
@@ -91,15 +92,12 @@ data <-
          livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
          
          cbi.narrative = `group_wp7sb17/NON_CONFIDENTIAL_Pl_rt_on_CBI_activities`)
-
 data <- 
   data %>% 
   mutate(year = year(year),
          week = parse_number(week)) %>%
   pivot_longer(-c(id, year, week, office.unit), names_pattern = "(.+)\\.(.+)", names_to = c("section", "dimension")) %>% 
   pivot_wider(names_from = "dimension", values_from = "value")
-
-
 data <- 
   data %>% 
   mutate(office.unit = case_when(office.unit == "so_boa_vista" ~ "SO Boa Vista",
@@ -123,18 +121,16 @@ data <-
                       livelihoods = "Livelihoods",
                       cbi = "CBI")[section],
          narrative = replace_na(narrative, "Nothing to report."))
-
 data <- 
   data %>% 
   mutate(office.unit = factor(office.unit),
          section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection",
                                               "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Internal Relocation", "Livelihoods", "CBI")))
-
-
 data <- 
   data %>% 
   select(id, year, week, office.unit, section, narrative, confidential) %>%
   filter(!is.na(section))
+
 ```
 
 ```{r renderers}
@@ -147,40 +143,27 @@ render_section <- function(data, .section) {
   cat(data$narrative, sep = "\n")
   cat("\n")
 }
-
 render_office.unit <- function(data, .office.unit) {
   cat(glue::glue("## {.office.unit}"), sep = "\n")
   data <- data %>% filter(office.unit == .office.unit)
   walk(levels(fct_drop(data$section)), ~render_section(data, .))
 }
-
-
 ```
 
 ```{r datafilter}
 ## If generated for report happening after this current week
 # isoweek(ymd("2012-03-26"))
-
 if(isoweek(today()) == 1 ) {
   ## If generated for report happening this current week
-  datanow <- data %>% filter(year == (isoyear(today()) - 1 ), week == 52)
+  datanow <- data %>% filter(year == (isoyear(today()) ), week == 52)
 } else {
-  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today())-1)
+  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today()))
 }
-
-
 ## Clean duplicated... dangerous
 # datanow2 <- datanow|>
 #            group_by(country, section) |>
 #             filter(duplicated(country, section) | n()==1) |>
 #             ungroup()
-
-datanow2 <- datanow [!duplicated(datanow[c(4,5)]),]
-
 ```
 
 
-```{r}
-if( nrow(datanow2) < nrow(datanow)) { cat("Warning: it seems duplicated report were send to the server. Revise the data in the server")}
-
-```
