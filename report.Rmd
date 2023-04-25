@@ -1,10 +1,10 @@
 ---
 title: Weekly Highlights - Brazil
-subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())}  `/`r lubridate::year(lubridate::today())`
-date: Weekly Highlights - Brazil
+subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())-1}  `/`r lubridate::year(lubridate::today()-1)`
+date: Brasilia Office - Brazil
 author:
-  - name: Chiara Orsini and Vivianne Barbosa Soares
-    affiliation: Associate Donor Relations Officer and Senior Reporting Assistant
+  - name: Vivianne Barbosa Soares
+    affiliation: Senior Reporting Assistant
     email: barbosas@unhcr.org
 
 output:
@@ -34,7 +34,6 @@ links-to-footnotes: true
 ---
 
 ```{r setup, include=FALSE}
-
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
                       fig.retina = 2,
                       fig.showtext = TRUE,
@@ -60,10 +59,7 @@ library(httr)
 library(ragg)
 library(showtext)
 library(unhcrdesign)
-
-rsconnect::writeManifest
-rsconnect::writeManifest(appPrimaryDoc = "report.Rmd")
-
+library(utf8)
 #knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 ```
@@ -81,7 +77,7 @@ data <-
   select(id = `_id`,
          year = `_submission_time`,
          week = `group_dv7hn13/Week_of_Reporting`,
-         office_unit = `group_dv7hn13/Office_Unit`,
+         office = `group_dv7hn13/Office_Unit`,
          reporting_unit = `In_which_Unit_do_you_have_some`,
          
          work_operation.narrative = `group_hx2aq27/NON_CONFIDENTIAL_PR_UNHCR_WORK_OPERATION`,
@@ -102,6 +98,7 @@ data <-
          shelter.confidential = `group_so4kv20/CONFIDENTIAL_Please_o_emergency_shelters`,
          
          relocation.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
+         
          livelihoods.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_velihoods_activities`,
          livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
          
@@ -112,23 +109,23 @@ data <-
   data %>% 
   mutate(year = year(year),
          week = parse_number(week)) %>%
-  pivot_longer(-c(id, year, week, office_unit), names_pattern = "(.+)\\.(.+)", names_to = c("section", "dimension")) %>% 
+  pivot_longer(-c(id, year, week, office), names_pattern = "(.+)\\.(.+)", names_to = c("section", "dimension")) %>% 
   pivot_wider(names_from = "dimension", values_from = "value")
 
 
 data <- 
   data %>% 
-  mutate(office_unit = case_when(office_unit == "so_boa_vista" ~ "SO Boa Vista",
-                             office_unit == "livelihoods___bras_lia" ~ "Livelihoods - Brasília",
-                             office_unit == "protection___bras_lia" ~ "Protection - Brasília",
-                             office_unit == "resettlement_and_complementary_paths___b" ~ "Resettlement and Complementary Pathways",
-                             office_unit == "indigenous___bras_lia" ~ "Indigenous – Brasília",
-                             office_unit == "cbi___bras_lia" ~ "CBI – Brasília ",
-                             office_unit == "psp___s_o_paulo" ~ "PSP – São Paulo",
-                             office_unit == "fo_s_o_paulo" ~ "FO São Paulo",
-                             office_unit == "fp_bel_m" ~ "FU Belém",
-                             office_unit == "fo_manaus" ~ "FO Manaus",
-                             office_unit == "fu_pacaraima" ~ "FU Pacaraima"),
+  mutate(office = case_when(office == "so_boa_vista" ~ "SO Boa Vista",
+                             office == "livelihoods___bras_lia" ~ "Livelihoods - Brasília",
+                             office == "protection___bras_lia" ~ "Protection - Brasília",
+                             office == "resettlement_and_complementary_paths___b" ~ "Resettlement and Complementary Pathways",
+                             office == "indigenous___bras_lia" ~ "Indigenous – Brasília",
+                             office == "cbi___bras_lia" ~ "CBI – Brasília ",
+                             office == "psp___s_o_paulo" ~ "PSP – São Paulo",
+                             office == "fo_s_o_paulo" ~ "FO São Paulo",
+                             office == "fp_bel_m" ~ "FU Belém",
+                             office == "fo_manaus" ~ "FO Manaus",
+                             office == "fu_pacaraima" ~ "FU Pacaraima"),
          section = c(work_operation = "Context + Situation", 
                       new_trends = "Population Trends", 
                       protection = "Protection",
@@ -138,53 +135,72 @@ data <-
                       relocation = "Internal Relocation",
                       livelihoods = "Livelihoods",
                       cbi = "CBI")[section],
-         narrative = replace_na(narrative, "Nothing to report."))
-
+             narrative = replace_na(narrative, "Nothing non-confidential to report."),
+          confidential = replace_na(confidential, "Nothing confidential to report.")
+         )
 
 data <- 
   data %>% 
-  mutate(office_unit = factor(office_unit),
+  mutate(office = factor(office),
          section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Internal Relocation", "Livelihoods", "CBI")))
 
 
 data <- 
   data %>% 
-  select(id, year, week, office_unit, section, narrative, confidential) %>%
+  select(id, year, week, office, section, narrative, confidential) %>%
   filter(!is.na(section))
 
+
 ```
+
+
+```{r renderers}
+render_section <- function(data, .section) {
+  cat(glue::glue("### {.section}"), sep = "\n")
+  data <- data %>% filter(section == .section)
+  cat(data$narrative, sep = "\n")
+  cat("\n")
+  if (any(data$confidential != "Nothing confidential to report."))
+  cat("<strong style='color: #EF4A60'>CONFIDENTIAL</strong>", sep = "\n")
+  cat(data$confidential, sep = "\n")
+  cat("\n")
+}
+
+
+render_office <- function(data, .office) {
+ cat(glue::glue("# {.office}"), sep = "\n")
+ data <- data %>% filter(office == .office)
+ walk(levels(fct_drop(data$section)), ~render_section(data, .))
+}
+
+```
+
 
 
 ```{r datafilter}
 ## If generated for report happening after this current week
 # isoweek(ymd("2012-03-26"))
-if(isoweek(today()) == 1 ) {
+
+if(isoweek(today()) ==1) {
   ## If generated for report happening this current week
-  datanow <- data %>% filter(year == (isoyear(today()) ), week == 52)
+  datanow <- data %>% filter(year == (isoyear(today()) -1 ), week == 52)
 } else {
-  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today()))
+  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today())-1)
 }
+
+
 ## Clean duplicated... dangerous
 # datanow2 <- datanow|>
 #            group_by(country, section) |>
 #             filter(duplicated(country, section) | n()==1) |>
 #             ungroup()
+
+datanow2 <- datanow [!duplicated(datanow[c(4,5)]),]
 ```
 
-```{r renderers}
-render_section <- function(datanow, section) {
-  cat(glue::glue("### {section}"), sep = "\n")
-  datanow <- data %>% filter(section == section)
-  if (any(!is.na(datanow$confidential) & datanow$confidential == "yes"))
-    cat("<strong style='color: #EF4A60'>CONFIDENTIAL</strong>", sep = "\n")
-  cat("\n")
-  cat(datanow$narrative, sep = "\n")
-  cat("\n")
-}
-render_office_unit <- function(datanow, office_unit) {
-  cat(glue::glue("## {.office.unit}"), sep = "\n")
-  datanow <- datanow %>% filter(office_unit == office_unit)
-  walk(levels(fct_drop(datanow$section)), ~render_section(datanow, .))
-}
+
+
+```{r, results='asis'}
+purrr::walk(levels(fct_drop(datanow2$office)), ~render_office(datanow2, .))
 ```
 
