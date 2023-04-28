@@ -4,7 +4,7 @@ subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { l
 date: Brasilia Office - Brazil
 author:
   - name: Vivianne Barbosa Soares
-    affiliation: Senior Reporting Assistant - Brasília Office (Brasil)
+    affiliation: Senior Reporting Assistant - Brasília Office (Brazil)
     email: barbosas@unhcr.org 
 
 output:
