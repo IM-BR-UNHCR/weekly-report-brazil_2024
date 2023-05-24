@@ -198,11 +198,10 @@ if(isoweek(today()) ==1) {
 #             filter(duplicated(country, section) | n()==1) |>
 #             ungroup()
 
-datanow2 <- datanow [!duplicated(datanow[c(4,5)]),]
 ```
 
 
 
 ```{r, results='asis'}
-purrr::walk(levels(fct_drop(datanow2$office)), ~render_office(datanow2, .))
+purrr::walk(levels(fct_drop(datanow$office)), ~render_office(datanow, .))
 ```
