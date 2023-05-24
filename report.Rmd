@@ -135,7 +135,7 @@ data <-
                       relocation = "Internal Relocation",
                       livelihoods = "Livelihoods",
                       cbi = "CBI")[section],
-             narrative = replace_na(narrative, "Nothing non-confidential to report."),
+             narrative = replace_na(narrative, ""),
           confidential = replace_na(confidential, "Nothing confidential to report.")
          )
 
@@ -143,6 +143,9 @@ data <-
   data %>% 
   mutate(office = factor(office),
          section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Internal Relocation", "Livelihoods", "CBI")))
+  
+ data <- data %>%
+  filter(confidential != "Nothing confidential to report." | narrative != "")
 
 
 data <- 
