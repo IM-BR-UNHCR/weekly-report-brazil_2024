@@ -108,7 +108,7 @@ data <-
 data <- 
   data %>% 
   mutate(year = year(year),
-         week = parse_number(week)) %>%
+         week = parse_number(week)-1) %>%
   pivot_longer(-c(id, year, week, office), names_pattern = "(.+)\\.(.+)", names_to = c("section", "dimension")) %>% 
   pivot_wider(names_from = "dimension", values_from = "value")
 
@@ -188,7 +188,7 @@ if(isoweek(today()) ==1) {
   ## If generated for report happening this current week
   datanow <- data %>% filter(year == (isoyear(today())), week == 52)
 } else {
-  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today()))
+  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today())-1)
 }
 
 
