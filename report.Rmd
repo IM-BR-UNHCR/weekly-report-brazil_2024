@@ -186,9 +186,9 @@ render_office <- function(data, .office) {
 
 if(isoweek(today()) ==1) {
   ## If generated for report happening this current week
-  datanow <- data %>% filter(year == (isoyear(today())), week == 52)
+  datanow <- data %>% filter(year == (isoyear(today())-1), week == 52)
 } else {
-  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today())-1)
+  datanow <- data %>% filter(year == isoyear(today()-1), week == isoweek(today())-1)
 }
 
 
