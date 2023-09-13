@@ -184,11 +184,11 @@ render_office <- function(data, .office) {
 ## If generated for report happening after this current week
 # isoweek(ymd("2012-03-26"))
 
-if(isoweek(today()) ==1) {
+if(isoweek(today(-1)) ==1) {
   ## If generated for report happening this current week
-  datanow <- data %>% filter(year == (isoyear(today())), week == 52)
+  datanow <- data %>% filter(year == (isoyear(today(-1))), week == 52)
 } else {
-  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today()))
+  datanow <- data %>% filter(year == isoyear(today(-1)), week == isoweek(today(-1)))
 }
 
 
