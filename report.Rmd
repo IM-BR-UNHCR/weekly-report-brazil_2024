@@ -1,6 +1,6 @@
 ---
 title: Weekly Highlights - Brazil
-subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {52} else { lubridate::isoweek(lubridate::today())}  `/`r lubridate::year(lubridate::today())`
+subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {54} else { lubridate::isoweek(lubridate::today())}  `/`r lubridate::year(lubridate::today())`
 date: Brasilia Office - Brazil
 author:
   - name: Vivianne Barbosa Soares
