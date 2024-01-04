@@ -134,8 +134,8 @@ data <-
                       indigenous = "Indigenous Peoples", 
                       pathways = "Resettlement and Complementary Pathways", 
                       shelter = "Shelter",
-                      livelihoods = "Local_Integration",
-                      local_integration = "Local_Integration",
+                      livelihoods = "Local Integration",
+                      local_integration = "Local Integration",
                       cbi = "CBI")[section],
              narrative = replace_na(narrative, ""),
           confidential = replace_na(confidential, "Nothing confidential to report.")
@@ -144,7 +144,7 @@ data <-
 data <- 
   data %>% 
   mutate(office = factor(office),
-         section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Local_Integration", "CBI")))
+         section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Local Integration", "CBI")))
   
  data <- data %>%
   filter(confidential != "Nothing confidential to report." | narrative != "")
