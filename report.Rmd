@@ -84,7 +84,6 @@ data <-
          work_operation.confidential = `group_hx2aq27/CONFIDENTIAL_PROVID_UNHCR_WORK_OPERATION`,
          
          new_trends.narrative = `group_gt36y03/NON_CONFIDENTIAL_PR_FOCUS_ON_NEW_TRENDS`,
-          new_trends.confidential = `group_gt36y03/CONFIDENTIAL_PROVID_FOCUS_ON_NEW_TRENDS`,
          
          protection.narrative = `group_xi4iq21/NON_CONFIDENTIAL_Pl_rotection_activities`,
          protection.confidential = `group_xi4iq21/CONFIDENTIAL_Please_rotection_activities`,
