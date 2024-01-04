@@ -78,7 +78,6 @@ data <-
          year = `_submission_time`,
          week = `group_dv7hn13/Week_of_Reporting`,
          office = `group_dv7hn13/Office_Unit`,
-         reporting_unit = `In_which_Unit_do_you_have_some`,
          
          work_operation.narrative = `group_hx2aq27/NON_CONFIDENTIAL_PR_UNHCR_WORK_OPERATION`,
          work_operation.confidential = `group_hx2aq27/CONFIDENTIAL_PROVID_UNHCR_WORK_OPERATION`,
