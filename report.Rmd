@@ -145,7 +145,7 @@ data <-
 data <- 
   data %>% 
   mutate(office = factor(office),
-         section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Internal Relocation", "Livelihoods", "CBI")))
+         section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Local Integration", "CBI")))
   
  data <- data %>%
   filter(confidential != "Nothing confidential to report." | narrative != "")
