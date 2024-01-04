@@ -84,6 +84,7 @@ data <-
          work_operation.confidential = `group_hx2aq27/CONFIDENTIAL_PROVID_UNHCR_WORK_OPERATION`,
          
          new_trends.narrative = `group_gt36y03/NON_CONFIDENTIAL_PR_FOCUS_ON_NEW_TRENDS`,
+          new_trends.confidential = `group_gt36y03/CONFIDENTIAL_PROVID_FOCUS_ON_NEW_TRENDS`,
          
          protection.narrative = `group_xi4iq21/NON_CONFIDENTIAL_Pl_rotection_activities`,
          protection.confidential = `group_xi4iq21/CONFIDENTIAL_Please_rotection_activities`,
@@ -98,11 +99,13 @@ data <-
          shelter.confidential = `group_so4kv20/CONFIDENTIAL_Please_o_emergency_shelters`,
          
          relocation.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
+          relocation.confidential = `group_ne27d45/CONFIDENTIAL_Please_elocation_activities`,
          
          livelihoods.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_velihoods_activities`,
          livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
          
-         cbi.narrative = `group_wp7sb17/NON_CONFIDENTIAL_Pl_rt_on_CBI_activities`)
+         cbi.narrative = `group_wp7sb17/NON_CONFIDENTIAL_Pl_rt_on_CBI_activities`,
+         cbi.confidential = `group_wp7sb17/CONFIDENTIAL_Please_rt_on_CBI_activities`)
 
 
 data <- 
@@ -188,9 +191,7 @@ render_office <- function(data, .office) {
 if(isoweek(today()) == 1) {
   ## If generated for report happening this current week
   datanow <- data %>% filter(year == (isoyear(today())), week == 52)
-} else {
-  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today()))
-}
+} 
 
 
 ## Clean duplicated... dangerous
