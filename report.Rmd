@@ -94,6 +94,12 @@ data <-
          
          pathways.narrative = `group_lo0ux27/NON_CONFIDENTIAL_Pl_omplemetary_pathways`,
          pathways.confidential = `group_lo0ux27/CONFIDENTIAL_Please_omplemetary_pathways`,
+
+          local_integration.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
+          local_integration.confidential = `group_ne27d45/CONFIDENTIAL_Please_elocation_activities`,
+
+         livelihoods.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_velihoods_activities`,
+         livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
          
          shelter.narrative = `group_so4kv20/NON_CONFIDENTIAL_Pl_o_emergency_shelters`,
          shelter.confidential = `group_so4kv20/CONFIDENTIAL_Please_o_emergency_shelters`,
@@ -129,8 +135,8 @@ data <-
                       indigenous = "Indigenous Peoples", 
                       pathways = "Resettlement and Complementary Pathways", 
                       shelter = "Shelter",
-                      livelihoods = "Local Integration",
-                      local_integration = "Local Integration",
+                      livelihoods = "Local_Integration",
+                      local_integration = "Local_Integration",
                       cbi = "CBI")[section],
              narrative = replace_na(narrative, ""),
           confidential = replace_na(confidential, "Nothing confidential to report.")
@@ -139,7 +145,7 @@ data <-
 data <- 
   data %>% 
   mutate(office = factor(office),
-         section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Local Integration", "CBI")))
+         section = factor(section, levels = c("Context + Situation", "Population Trends", "Protection", "Indigenous Peoples", "Resettlement and Complementary Pathways", "Shelter", "Local_Integration", "CBI")))
   
  data <- data %>%
   filter(confidential != "Nothing confidential to report." | narrative != "")
