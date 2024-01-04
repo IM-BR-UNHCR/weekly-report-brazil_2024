@@ -1,6 +1,6 @@
 ---
 title: Weekly Highlights - Brazil
-subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {54} else { lubridate::isoweek(lubridate::today())}  `/`r lubridate::year(lubridate::today())-1`
+subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {1} else { lubridate::isoweek(lubridate::today())}  `/`r lubridate::year(lubridate::today())`
 date: Brasilia Office - Brazil
 author:
   - name: Vivianne Barbosa Soares
@@ -187,11 +187,12 @@ render_office <- function(data, .office) {
 # isoweek(ymd("2012-03-26"))
 
 
-
 if(isoweek(today()) == 1) {
   ## If generated for report happening this current week
-  datanow <- data %>% filter(year == (isoyear(today())-1), week == 54)
-} 
+  datanow <- data %>% filter(year == (isoyear(today())), week == 54)
+} else {
+  datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today()))
+}
 
 
 ## Clean duplicated... dangerous
