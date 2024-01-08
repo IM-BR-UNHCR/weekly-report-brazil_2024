@@ -66,7 +66,7 @@ library(utf8)
 
 ```{r data}
 data <-
-  GET("https://kobo.unhcr.org/api/v2/assets/a5BzV4z9cA3kx8y9hFEUG7/data.json",
+  GET("https://kobo.unhcr.org/api/v2/assets/aEovpcZSfjRM4UPLBx6Y2M/data.json",
       add_headers(Authorization = glue::glue("Token {Sys.getenv('KOBO_API_KEY')}"))) %>% 
   content(as = "text") %>% 
   jsonlite::fromJSON() %>% 
