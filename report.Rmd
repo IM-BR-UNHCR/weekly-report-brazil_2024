@@ -1,5 +1,5 @@
 ---
-title: Weekly Highlights - Brazil
+title: Weekly Highlights 2024 - Brazil
 subtitle: WEEK `r if( lubridate::isoweek(lubridate::today()) == 1) {1} else { lubridate::isoweek(lubridate::today())}  `/`r lubridate::year(lubridate::today())`
 date: Brasilia Office - Brazil
 author:
@@ -186,13 +186,10 @@ render_office <- function(data, .office) {
 ## If generated for report happening after this current week
 # isoweek(ymd("2012-03-26"))
 
-
-if(isoweek(today()) == 1) {
   ## If generated for report happening this current week
-  datanow <- data %>% filter(year == (isoyear(today())), week == 54)
-} else {
+
   datanow <- data %>% filter(year == isoyear(today()), week == isoweek(today()))
-}
+
 
 
 ## Clean duplicated... dangerous
