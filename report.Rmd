@@ -79,7 +79,7 @@ data <-
          week = `group_dv7hn13/Week_of_Reporting`,
          office = `group_dv7hn13/Office_Unit`,
          
-         work_operation.narrative = `group_hx2aq27/NON_CONFIDENTIAL_PR_UNHCR_WORK_OPERATION`,
+     
          work_operation.confidential = `group_hx2aq27/CONFIDENTIAL_PROVID_UNHCR_WORK_OPERATION`,
          
          protection.narrative = `group_xi4iq21/NON_CONFIDENTIAL_Pl_rotection_activities`,
