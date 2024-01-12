@@ -90,7 +90,6 @@ data <-
          indigenous.narrative = `group_yz3lf65/NON_CONFIDENTIAL_Pl_n_indigenous_peoples`,
 
           local_integration.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
-          local_integration.confidential = `group_ne27d45/CONFIDENTIAL_Please_elocation_activities`,
 
          livelihoods.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_velihoods_activities`,
          livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
