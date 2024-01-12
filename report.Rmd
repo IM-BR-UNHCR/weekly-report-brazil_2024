@@ -88,6 +88,7 @@ data <-
          protection.confidential = `group_xi4iq21/CONFIDENTIAL_Please_rotection_activities`,
          
          indigenous.narrative = `group_yz3lf65/NON_CONFIDENTIAL_Pl_n_indigenous_peoples`,
+          indigenous.confidential = `group_yz3lf65/CONFIDENTIAL_Please_n_indigenous_peoples`,
 
           local_integration.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
 
