@@ -91,7 +91,6 @@ data <-
 
           local_integration.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
 
-         livelihoods.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_velihoods_activities`,
          livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
          
          shelter.narrative = `group_so4kv20/NON_CONFIDENTIAL_Pl_o_emergency_shelters`,
