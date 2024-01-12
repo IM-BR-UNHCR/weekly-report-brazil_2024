@@ -88,9 +88,6 @@ data <-
          protection.confidential = `group_xi4iq21/CONFIDENTIAL_Please_rotection_activities`,
          
          indigenous.narrative = `group_yz3lf65/NON_CONFIDENTIAL_Pl_n_indigenous_peoples`,
-         
-         pathways.narrative = `group_lo0ux27/NON_CONFIDENTIAL_Pl_omplemetary_pathways`,
-         pathways.confidential = `group_lo0ux27/CONFIDENTIAL_Please_omplemetary_pathways`,
 
           local_integration.narrative = `group_ne27d45/NON_CONFIDENTIAL_Pl_elocation_activities`,
           local_integration.confidential = `group_ne27d45/CONFIDENTIAL_Please_elocation_activities`,
@@ -99,7 +96,6 @@ data <-
          livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
          
          shelter.narrative = `group_so4kv20/NON_CONFIDENTIAL_Pl_o_emergency_shelters`,
-         shelter.confidential = `group_so4kv20/CONFIDENTIAL_Please_o_emergency_shelters`,
          
          cbi.narrative = `group_wp7sb17/NON_CONFIDENTIAL_Pl_rt_on_CBI_activities`,
          cbi.confidential = `group_wp7sb17/CONFIDENTIAL_Please_rt_on_CBI_activities`)
