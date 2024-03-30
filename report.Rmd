@@ -97,7 +97,7 @@ data <-
          livelihoods.confidential = `group_ne27d45/CONFIDENTIAL_Please_velihoods_activities`,
          
          shelter.narrative = `group_so4kv20/NON_CONFIDENTIAL_Pl_o_emergency_shelters`,
-        shelter.confidential = `group_so4kv20/Please_o_emergency_shelters`,
+        shelter.confidential = `group_so4kv20/CONFIDENTIAL_Please_o_emergency_shelters`,
 
          cbi.narrative = `group_wp7sb17/NON_CONFIDENTIAL_Pl_rt_on_CBI_activities`)
 
